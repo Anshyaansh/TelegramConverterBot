@@ -1,4 +1,17 @@
 import os
+import logging
+import tempfile
+import zipfile
+from dotenv import load_dotenv
+from pathlib import Path
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, BotCommand
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
+from telegram.constants import ChatAction
+from PIL import Image
+import img2pdf
+from pypdf import PdfReader, PdfWriter
+import fitz  # PyMuPDF
+
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
 class QuietHandler(SimpleHTTPRequestHandler):
@@ -15,19 +28,6 @@ def start_dummy_server():
 
 import threading
 threading.Thread(target=start_dummy_server, daemon=True).start()
-import logging
-import tempfile
-import zipfile
-from dotenv import load_dotenv
-from pathlib import Path
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, BotCommand
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes, CallbackQueryHandler
-from telegram.constants import ChatAction
-from PIL import Image
-import img2pdf
-from pypdf import PdfReader, PdfWriter
-import fitz  # PyMuPDF
-
 # Load environment variables
 load_dotenv(Path(__file__).parent / '.env')
 print(f"Loaded .env: {os.getenv('BOT_TOKEN')}")
