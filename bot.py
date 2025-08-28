@@ -1,4 +1,20 @@
 import os
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+
+class QuietHandler(SimpleHTTPRequestHandler):
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"Bot is running")
+
+def start_dummy_server():
+    port = int(os.getenv("PORT", 5000))
+    server = HTTPServer(("", port), QuietHandler)
+    server.serve_forever()
+
+import threading
+threading.Thread(target=start_dummy_server, daemon=True).start()
 import logging
 import tempfile
 import zipfile
